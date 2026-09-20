@@ -8,12 +8,24 @@ import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AdminModule } from './admin/admin.module';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+import authConfig from './config/auth.config';
+import { validationSchema } from './config/validation';
 
 @Module({
   imports: [
 
     // CARGAMOS .ENV DE FORMA GLOBAL EN LA APP
-    ConfigModule.forRoot({ isGlobal:true }),
+    ConfigModule.forRoot({ 
+      isGlobal:true,
+      load: [
+        appConfig,
+        databaseConfig,
+        authConfig,
+      ],
+      validationSchema,
+    }),
 
     // CONFIGURAR TYPEORM DE FORMA ASINCRONA
     TypeOrmModule.forRootAsync({
@@ -21,11 +33,11 @@ import { AdminModule } from './admin/admin.module';
       inject: [ConfigService],
       useFactory: (configService : ConfigService)=>({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
+        host: configService.get<string>('database.host'),
+        port: configService.get<number>('database.port'),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        database: configService.get<string>('database.name'),
         autoLoadEntities: true,
         //synchronize: true,
       })
