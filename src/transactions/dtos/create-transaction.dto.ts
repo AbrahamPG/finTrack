@@ -1,4 +1,4 @@
-import { IsDate, IsDateString, IsEnum, IsInt, IsNotEmpty, IsNumber, IsPositive, IsString, MaxLength, MinLength } from "class-validator"
+import { IsDateString, IsEnum, IsInt, IsNumber, IsPositive, IsString, MaxLength, MinLength } from "class-validator"
 import { TransactionType } from "src/common/enums/transaction.enums"
 
 
